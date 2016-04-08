@@ -99,3 +99,55 @@ legend('odom1','odom2','odom3','Location','southwest')
 axis equal
 xlim([x3_min x3_max])
 ylim([y3_min y3_max])
+
+%% Graph the error as a function of the change in distance and change in theta.
+
+v = linspace(0,2.5,251);
+omega = linspace(0,2.5,251);
+dt = 3;
+ds = v*dt;
+dtheta = omega*dt;
+
+err1 = NaN(251,251);
+err2 = err1;
+for i = 1:length(v)
+    for j = 1:length(omega)
+        x = [0 0 0 v(i) omega(j)];
+        x1_new = odom1(dt,x);
+        x2_new = odom2(dt,x);
+        x3_new = odom3(dt,x);
+        err1(j,i) = sqrt((x1_new(1)-x3_new(1))^2+(x1_new(2)-x3_new(2))^2);
+        err2(j,i) = sqrt((x2_new(1)-x3_new(1))^2+(x2_new(2)-x3_new(2))^2);
+    end
+end
+
+% y axis is distance traveled (v*dt), x axis is change in theta (omega*dt),
+% z is distance of final (x,y) from that of odom3.
+figure(2)
+subplot(1,2,1)
+surf(dtheta,ds,err1)
+ylabel('\DeltaD (m)','FontSize',label_size)
+xlabel('\Delta\theta (rad)','FontSize',label_size)
+title('odom1','FontSize',title_size)
+set(gca,'LineWidth',1.2,'FontSize',tick_size)
+shading interp
+view(2)
+axis equal
+xlim([0 2.5*3])
+ylim([0 2.5*3])
+colorbar
+caxis([0 10])
+
+subplot(1,2,2)
+surf(dtheta,ds,err2)
+ylabel('\DeltaD (m)','FontSize',label_size)
+xlabel('\Delta\theta (rad)','FontSize',label_size)
+title('odom2','FontSize',title_size)
+set(gca,'LineWidth',1.2,'FontSize',tick_size)
+shading interp
+view(2)
+axis equal
+xlim([0 2.5*3])
+ylim([0 2.5*3])
+colorbar
+caxis([0 10])
