@@ -135,6 +135,9 @@ view(2)
 axis equal
 xlim([0 2.5*3])
 ylim([0 2.5*3])
+ax = gca;
+ax.XTick = [0 pi/2 pi 3*pi/2 2*pi];
+ax.XTickLabel = {'0','\pi/2','\pi','3\pi/2','2\pi'};
 colormap(hsv(256))
 colorbar
 caxis([0 10])
@@ -150,6 +153,9 @@ view(2)
 axis equal
 xlim([0 2.5*3])
 ylim([0 2.5*3])
+ax = gca;
+ax.XTick = [0 pi/2 pi 3*pi/2 2*pi];
+ax.XTickLabel = {'0','\pi/2','\pi','3\pi/2','2\pi'};
 colormap(hsv(256))
 colorbar
 caxis([0 10])
@@ -159,14 +165,27 @@ caxis([0 10])
 vMax = 1.5; % m/s (Set in RT_Main*.vi on the cRIO)
 omegaMax = 2.0; % rad/s (Set in RT_Main*.vi on the cRIO)
 dtMax = 1/60.0; % Update rate of encoders
-
+dt = linspace(0,dtMax,100);
+% Initial conditions
 xMax = [0 0 0 vMax omegaMax];
-
-xMax1_new = odom1(dtMax,xMax);
+% Final conditions for all three algorithms
+xMax1_new = odom1(dt,xMax);
 xMax2_new = odom2(dt,xMax);
 xMax3_new = odom3(dt,xMax);
-
-errMax1 = sqrt((xMax1_new(1)-xMax3_new(1))^2+(xMax1_new(2)-xMax3_new(2))^2);
-errMax2 = sqrt((xMax2_new(1)-xMax3_new(1))^2+(xMax2_new(2)-xMax3_new(2))^2);
-
+% Compute difference in final location between 1st two algorithms and 3rd.
+errMax1 = sqrt((xMax1_new(1,end)-xMax3_new(1,end))^2+(xMax1_new(2,end)-xMax3_new(2,end))^2);
+errMax2 = sqrt((xMax2_new(1,end)-xMax3_new(1,end))^2+(xMax2_new(2,end)-xMax3_new(2,end))^2);
+% Print to console
 fprintf('Maximum error of algorithms 1 and 2 at vMax = %f, omegaMax = %f.\nError1 = %f\nError2 = %f\n',vMax,omegaMax,errMax1,errMax2);
+% And plot
+figure(3)
+plot(xMax1_new(1,:),xMax1_new(2,:),xMax2_new(1,:),xMax2_new(2,:),xMax3_new(1,:),xMax3_new(2,:),'LineWidth',2)
+xlabel('x (m)','FontSize',label_size)
+ylabel('y (m)','FontSize',label_size)
+title1 = sprintf('%.2f seconds',dtMax);
+title(title1,'FontSize',title_size)
+set(gca,'LineWidth',1.2,'FontSize',tick_size)
+legend('odom1','odom2','odom3','Location','northeast')
+axis equal
+% xlim([x1_min x1_max])
+% ylim([y1_min y1_max])
