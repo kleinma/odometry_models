@@ -149,5 +149,23 @@ view(2)
 axis equal
 xlim([0 2.5*3])
 ylim([0 2.5*3])
+colormap(hsv(256))
 colorbar
 caxis([0 10])
+
+%% Calculate max error at max linear and angular velocity
+
+vMax = 1.5; % m/s (Set in RT_Main*.vi on the cRIO)
+omegaMax = 2.0; % rad/s (Set in RT_Main*.vi on the cRIO)
+dtMax = 1/60.0; % Update rate of encoders
+
+xMax = [0 0 0 vMax omegaMax];
+
+xMax1_new = odom1(dtMax,xMax);
+xMax2_new = odom2(dt,xMax);
+xMax3_new = odom3(dt,xMax);
+
+errMax1 = sqrt((xMax1_new(1)-xMax3_new(1))^2+(xMax1_new(2)-xMax3_new(2))^2);
+errMax2 = sqrt((xMax2_new(1)-xMax3_new(1))^2+(xMax2_new(2)-xMax3_new(2))^2);
+
+fprintf('Maximum error of algorithms 1 and 2 at vMax = %f, omegaMax = %f.\nError1 = %f\nError2 = %f\n',vMax,omegaMax,errMax1,errMax2);
