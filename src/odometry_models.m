@@ -176,7 +176,7 @@ xMax3_new = odom3(dt,xMax);
 errMax1 = sqrt((xMax1_new(1,end)-xMax3_new(1,end))^2+(xMax1_new(2,end)-xMax3_new(2,end))^2);
 errMax2 = sqrt((xMax2_new(1,end)-xMax3_new(1,end))^2+(xMax2_new(2,end)-xMax3_new(2,end))^2);
 % Print to console
-fprintf('Maximum error of algorithms 1 and 2 at vMax = %f, omegaMax = %f.\nError1 = %f\nError2 = %f\n',vMax,omegaMax,errMax1,errMax2);
+fprintf('Maximum error of algorithms 1 and 2 at vMax = %.2f, omegaMax = %.2f.\nError1 = %.8f\nError2 = %.8f\n',vMax,omegaMax,errMax1,errMax2);
 % And plot
 figure(3)
 plot(xMax1_new(1,:),xMax1_new(2,:),xMax2_new(1,:),xMax2_new(2,:),xMax3_new(1,:),xMax3_new(2,:),'LineWidth',2)
