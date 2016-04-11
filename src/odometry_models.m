@@ -135,6 +135,7 @@ view(2)
 axis equal
 xlim([0 2.5*3])
 ylim([0 2.5*3])
+colormap(hsv(256))
 colorbar
 caxis([0 10])
 
