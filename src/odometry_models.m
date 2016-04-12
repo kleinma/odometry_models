@@ -64,7 +64,10 @@ ylabel('y (m)','FontSize',label_size)
 title1 = sprintf('%.2f seconds',t(N));
 title(title1,'FontSize',title_size)
 set(gca,'LineWidth',1.2,'FontSize',tick_size)
-legend('odom1','odom2','odom3','Location','northeast')
+leg1 = 'A';
+leg2 = 'B';
+leg3 = 'C';
+legend(leg1,leg2,leg3,'Location','northeast')
 axis equal
 xlim([x1_min x1_max])
 ylim([y1_min y1_max])
@@ -82,7 +85,7 @@ ylabel('y (m)','FontSize',label_size)
 title2 = sprintf('%.2f seconds',t(N));
 title(title2,'FontSize',title_size)
 set(gca,'LineWidth',1.2,'FontSize',tick_size)
-legend('odom1','odom2','odom3','Location','southwest')
+legend(leg1,leg2,leg3,'Location','southwest')
 axis equal
 xlim([x2_min x2_max])
 ylim([y2_min y2_max])
@@ -95,7 +98,7 @@ ylabel('y (m)','FontSize',label_size)
 title3 = sprintf('%.2f seconds',t(N));
 title(title3,'FontSize',title_size)
 set(gca,'LineWidth',1.2,'FontSize',tick_size)
-legend('odom1','odom2','odom3','Location','southwest')
+legend(leg1,leg2,leg3,'Location','southwest')
 axis equal
 xlim([x3_min x3_max])
 ylim([y3_min y3_max])
@@ -128,7 +131,7 @@ subplot(1,2,1)
 surf(dtheta,ds,err1)
 ylabel('\DeltaD (m)','FontSize',label_size)
 xlabel('\Delta\theta (rad)','FontSize',label_size)
-title('odom1','FontSize',title_size)
+title('Error in A','FontSize',title_size)
 set(gca,'LineWidth',1.2,'FontSize',tick_size)
 shading interp
 view(2)
@@ -146,7 +149,7 @@ subplot(1,2,2)
 surf(dtheta,ds,err2)
 ylabel('\DeltaD (m)','FontSize',label_size)
 xlabel('\Delta\theta (rad)','FontSize',label_size)
-title('odom2','FontSize',title_size)
+title('Error in B','FontSize',title_size)
 set(gca,'LineWidth',1.2,'FontSize',tick_size)
 shading interp
 view(2)
