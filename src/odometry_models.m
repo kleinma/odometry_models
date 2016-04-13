@@ -20,9 +20,12 @@ x2 = odom2(t,xp);
 x3 = odom3(t,xp);
 
 % Set some graphing parameters...
-title_size = 20;
-label_size = 16;
-tick_size = 14;
+title_size = 32;
+label_size = 24;
+tick_size = 20;
+line_width = 4;
+axis_width = 2;
+box_width = 1.5;
 
 % ... including plot boundries. These are also used to plot inner boxes to
 % show the boundaries of zoomed in plots on the more zoomed out  plots.
@@ -54,16 +57,16 @@ end
 figure(1)
 subplot(1,3,1)
 N=301;
-plot(x1(1,1:N),x1(2,1:N),x2(1,1:N),x2(2,1:N),x3(1,1:N),x3(2,1:N),'LineWidth',2)
+plot(x1(1,1:N),x1(2,1:N),x2(1,1:N),x2(2,1:N),x3(1,1:N),x3(2,1:N),'LineWidth',line_width)
 hold on
 % Plot the boundaries of plot 2 on plot 1.
-plot([x2_min x2_max x2_max x2_min x2_min],[y2_min y2_min y2_max y2_max y2_min],'-k','LineWidth',1)
+plot([x2_min x2_max x2_max x2_min x2_min],[y2_min y2_min y2_max y2_max y2_min],'-k','LineWidth',box_width)
 hold off
 xlabel('x (m)','FontSize',label_size)
 ylabel('y (m)','FontSize',label_size)
 title1 = sprintf('%.2f seconds',t(N));
 title(title1,'FontSize',title_size)
-set(gca,'LineWidth',1.2,'FontSize',tick_size)
+set(gca,'LineWidth',axis_width,'FontSize',tick_size)
 leg1 = 'A';
 leg2 = 'B';
 leg3 = 'C';
@@ -75,30 +78,30 @@ ylim([y1_min y1_max])
 
 subplot(1,3,2)
 N = 101;
-plot(x1(1,1:N),x1(2,1:N),x2(1,1:N),x2(2,1:N),x3(1,1:N),x3(2,1:N),'LineWidth',2)
+plot(x1(1,1:N),x1(2,1:N),x2(1,1:N),x2(2,1:N),x3(1,1:N),x3(2,1:N),'LineWidth',line_width)
 hold on
 % Plot the boundaries of plot 3 on plot 2.
-plot([x3_min x3_max x3_max x3_min x3_min],[y3_min y3_min y3_max y3_max y3_min],'-k','LineWidth',1)
+plot([x3_min x3_max x3_max x3_min x3_min],[y3_min y3_min y3_max y3_max y3_min],'-k','LineWidth',box_width)
 hold off
 xlabel('x (m)','FontSize',label_size)
 ylabel('y (m)','FontSize',label_size)
 title2 = sprintf('%.2f seconds',t(N));
 title(title2,'FontSize',title_size)
-set(gca,'LineWidth',1.2,'FontSize',tick_size)
-legend(leg1,leg2,leg3,'Location','southwest')
+set(gca,'LineWidth',axis_width,'FontSize',tick_size)
+legend(leg1,leg2,leg3,'Location','northeast')
 axis equal
 xlim([x2_min x2_max])
 ylim([y2_min y2_max])
 
 subplot(1,3,3)
 N = 11;
-plot(x1(1,1:N),x1(2,1:N),x2(1,1:N),x2(2,1:N),x3(1,1:N),x3(2,1:N),'LineWidth',2)
+plot(x1(1,1:N),x1(2,1:N),x2(1,1:N),x2(2,1:N),x3(1,1:N),x3(2,1:N),'LineWidth',line_width)
 xlabel('x (m)','FontSize',label_size)
 ylabel('y (m)','FontSize',label_size)
 title3 = sprintf('%.2f seconds',t(N));
 title(title3,'FontSize',title_size)
-set(gca,'LineWidth',1.2,'FontSize',tick_size)
-legend(leg1,leg2,leg3,'Location','southwest')
+set(gca,'LineWidth',axis_width,'FontSize',tick_size)
+legend(leg1,leg2,leg3,'Location','northeast')
 axis equal
 xlim([x3_min x3_max])
 ylim([y3_min y3_max])
@@ -127,7 +130,7 @@ end
 % y axis is distance traveled (v*dt), x axis is change in theta (omega*dt),
 % z is distance of final (x,y) from that of odom3.
 figure(2)
-subplot(1,2,1)
+subplot(2,1,1)
 surf(dtheta,ds,err1)
 ylabel('\DeltaD (m)','FontSize',label_size)
 xlabel('\Delta\theta (rad)','FontSize',label_size)
@@ -145,7 +148,7 @@ colormap(hsv(256))
 colorbar
 caxis([0 10])
 
-subplot(1,2,2)
+subplot(2,1,2)
 surf(dtheta,ds,err2)
 ylabel('\DeltaD (m)','FontSize',label_size)
 xlabel('\Delta\theta (rad)','FontSize',label_size)
